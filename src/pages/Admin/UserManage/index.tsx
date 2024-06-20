@@ -7,7 +7,7 @@ import {
 import type { ProColumns } from '@ant-design/pro-components';
 import { ModalForm, ProForm, ProFormText, ProTable } from '@ant-design/pro-components';
 import { ProFormSelect } from '@ant-design/pro-form';
-import { Button, Image, Popconfirm, Tag, message } from 'antd';
+import { Button, Flex, Image, Popconfirm, Tag, message } from 'antd';
 import { useState } from 'react';
 
 export const waitTimePromise = async (time: number = 100) => {
@@ -131,159 +131,161 @@ const columns: ProColumns<API.User>[] = [
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     render: (_text, record, _, action) => [
       // eslint-disable-next-line react/jsx-key
-      <ModalForm<API.User>
-        title="修改用户信息"
-        trigger={
-          <Button size={'small'} type={'primary'}>
-            修改
-          </Button>
-        }
-        autoFocusFirstInput
-        modalProps={{
-          destroyOnClose: true,
-          onCancel: () => console.log('cancel')
-        }}
-        submitTimeout={500}
-        onFinish={async (values) => {
-          await waitTime(500);
-          //点击了提交，发起请求
-          values.id = record.id;
-          const isModify = await updateUserUsingPost(values);
-          if (isModify) {
-            message.success('修改成功');
-            // 刷新用户信息表单
-            location.reload();
-            return true;
+      <Flex vertical gap="small" style={{ width: '100%' }}>
+        <ModalForm<API.User>
+          title="修改用户信息"
+          trigger={
+            <Button size={'small'} type={'primary'} style={{ margin: 'auto' }}>
+              修改
+            </Button>
           }
-          return false;
-        }}
-      >
-        <ProForm.Group>
-          <ProFormText
-            width="md"
-            name="userName"
-            label="用户名"
-            placeholder="请输入用户名"
-            initialValue={record.userName}
-          />
-          <ProFormText
-            width="md"
-            name="userAccount"
-            label="用户账号"
-            placeholder="请输入账号"
-            initialValue={record.userAccount}
-          />
-          <ProFormText
-            width="md"
-            name="userPassword"
-            label="用户密码"
-            placeholder="请修改密码"
-            initialValue={record.userPassword}
-          />
-          <ProFormText
-            width="md"
-            name="phone"
-            label="手机号"
-            placeholder="请输入手机号"
-            initialValue={record.phone}
-          />
-          <ProFormText
-            width="md"
-            name="email"
-            label="邮箱"
-            placeholder="请输入邮箱"
-            initialValue={record.email}
-          />
-          <ProFormSelect
-            name="gender"
-            fieldProps={{
-              size: 'large'
-            }}
-            label="性别"
-            options={selectGender}
-            placeholder="请选择性别"
-            initialValue={record.gender}
-            rules={[
-              {
-                required: true,
-                message: '请选择性别'
-              }
-            ]}
-          />
-          <ProFormSelect
-            name="userRole"
-            fieldProps={{
-              size: 'large'
-            }}
-            label="用户角色"
-            options={selectUserRole}
-            initialValue={record.userRole}
-            placeholder={'选择用户角色'}
-            rules={[
-              {
-                required: true,
-                message: '请选择用户角色'
-              }
-            ]}
-          />
-          <ProFormSelect
-            name="userAvatar"
-            fieldProps={{
-              size: 'large'
-            }}
-            label="用户头像"
-            options={selectAvatarUrl}
-            placeholder={'请选择用户头像 '}
-            initialValue={record.userAvatar}
-            rules={[
-              {
-                required: true,
-                message: '请输入选择用户头像!'
-              }
-            ]}
-          />
-          <ProFormSelect
-            name="userRole"
-            fieldProps={{
-              size: 'large'
-            }}
-            label="用户角色"
-            options={selectUserRole}
-            initialValue={record.userRole}
-            placeholder={'选择用户角色'}
-            rules={[
-              {
-                required: true,
-                message: '请选择用户角色'
-              }
-            ]}
-          />
-        </ProForm.Group>
-      </ModalForm>,
-      <a key="view">
-        <Popconfirm
-          title="删除用户"
-          description="你确定要删除他吗？"
-          onConfirm={async () => {
-            const id = record.id;
-            const isDelete = await deleteUserUsingPost({ id: id });
-            if (isDelete) {
-              message.success('删除成功');
+          autoFocusFirstInput
+          modalProps={{
+            destroyOnClose: true,
+            onCancel: () => console.log('cancel')
+          }}
+          submitTimeout={500}
+          onFinish={async (values) => {
+            await waitTime(500);
+            //点击了提交，发起请求
+            values.id = record.id;
+            const isModify = await updateUserUsingPost(values);
+            if (isModify) {
+              message.success('修改成功');
               // 刷新用户信息表单
               location.reload();
-            } else {
-              message.error('删除失败');
+              return true;
             }
+            return false;
           }}
-          onCancel={() => {}}
-          okText="是"
-          cancelText="否"
         >
-          <Button size={'small'} type={'primary'} danger>
-            删除
-          </Button>
-        </Popconfirm>
-      </a>
+          <ProForm.Group>
+            <ProFormText
+              width="md"
+              name="userName"
+              label="用户名"
+              placeholder="请输入用户名"
+              initialValue={record.userName}
+            />
+            <ProFormText
+              width="md"
+              name="userAccount"
+              label="用户账号"
+              placeholder="请输入账号"
+              initialValue={record.userAccount}
+            />
+            <ProFormText
+              width="md"
+              name="userPassword"
+              label="用户密码"
+              placeholder="请修改密码"
+              initialValue={record.userPassword}
+            />
+            <ProFormText
+              width="md"
+              name="phone"
+              label="手机号"
+              placeholder="请输入手机号"
+              initialValue={record.phone}
+            />
+            <ProFormText
+              width="md"
+              name="email"
+              label="邮箱"
+              placeholder="请输入邮箱"
+              initialValue={record.email}
+            />
+            <ProFormSelect
+              name="gender"
+              fieldProps={{
+                size: 'large'
+              }}
+              label="性别"
+              options={selectGender}
+              placeholder="请选择性别"
+              initialValue={record.gender}
+              rules={[
+                {
+                  required: true,
+                  message: '请选择性别'
+                }
+              ]}
+            />
+            <ProFormSelect
+              name="userRole"
+              fieldProps={{
+                size: 'large'
+              }}
+              label="用户角色"
+              options={selectUserRole}
+              initialValue={record.userRole}
+              placeholder={'选择用户角色'}
+              rules={[
+                {
+                  required: true,
+                  message: '请选择用户角色'
+                }
+              ]}
+            />
+            <ProFormSelect
+              name="userAvatar"
+              fieldProps={{
+                size: 'large'
+              }}
+              label="用户头像"
+              options={selectAvatarUrl}
+              placeholder={'请选择用户头像 '}
+              initialValue={record.userAvatar}
+              rules={[
+                {
+                  required: true,
+                  message: '请输入选择用户头像!'
+                }
+              ]}
+            />
+            <ProFormSelect
+              name="userRole"
+              fieldProps={{
+                size: 'large'
+              }}
+              label="用户角色"
+              options={selectUserRole}
+              initialValue={record.userRole}
+              placeholder={'选择用户角色'}
+              rules={[
+                {
+                  required: true,
+                  message: '请选择用户角色'
+                }
+              ]}
+            />
+          </ProForm.Group>
+        </ModalForm>
+        <a key="view">
+          <Popconfirm
+            title="删除用户"
+            description="你确定要删除该用户吗？"
+            onConfirm={async () => {
+              const id = record.id;
+              const isDelete = await deleteUserUsingPost({ id: id });
+              if (isDelete) {
+                message.success('删除成功');
+                // 刷新用户信息表单
+                location.reload();
+              } else {
+                message.error('删除失败');
+              }
+            }}
+            onCancel={() => { }}
+            okText="是"
+            cancelText="否"
+          >
+            <Button size={'small'} type={'primary'} danger>
+              删除
+            </Button>
+          </Popconfirm>
+        </a>
+      </Flex>
     ]
   }
 ];

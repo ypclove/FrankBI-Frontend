@@ -8,7 +8,7 @@ import {
   updateOrderUsingPost
 } from '@/services/FrankBI/aiFrequencyOrderController';
 import { Link } from '@@/exports';
-import { Button, Popconfirm, Tag, message } from 'antd';
+import { Button, Flex, Popconfirm, Tag, message } from 'antd';
 import { useState } from 'react';
 import Footer from '../../../components/Footer';
 
@@ -90,32 +90,34 @@ const columns: ProColumns<API.AiFrequencyOrder>[] = [
     key: 'pay',
     render: (text, record, _, action) => [
       <>
-        <Link to="/admin/user_pay_order_manage">
-          <Button size={'small'} type={'primary'}>
-            付款
-          </Button>
-        </Link>
-        <a key="view">
-          <Popconfirm
-            title="取消订单"
-            description="你确定要取消此订单吗？"
-            onConfirm={async (e) => {
-              const isCancel = await cancelOrderUsingPost({ ...record });
-              if (isCancel) {
-                message.success('取消成功');
-                // 刷新订单信息表单
-                location.reload();
-              } else {
-                message.error('取消失败');
-              }
-            }}
-            onCancel={(e) => {}}
-            okText="是"
-            cancelText="否"
-          >
-            <Button size={'small'}>取消</Button>
-          </Popconfirm>
-        </a>
+        <Flex vertical gap="small" style={{ width: '100%' }}>
+          <Link to="/admin/user_pay_order_manage">
+            <Button size={'small'} type={'primary'}>
+              付款
+            </Button>
+          </Link>
+          <a key="view">
+            <Popconfirm
+              title="取消订单"
+              description="你确定要取消此订单吗？"
+              onConfirm={async (e) => {
+                const isCancel = await cancelOrderUsingPost({ ...record });
+                if (isCancel) {
+                  message.success('取消成功');
+                  // 刷新订单信息表单
+                  location.reload();
+                } else {
+                  message.error('取消失败');
+                }
+              }}
+              onCancel={(e) => { }}
+              okText="是"
+              cancelText="否"
+            >
+              <Button size={'small'}>取消</Button>
+            </Popconfirm>
+          </a>
+        </Flex>
       </>
     ]
   },
@@ -126,66 +128,68 @@ const columns: ProColumns<API.AiFrequencyOrder>[] = [
     key: 'option',
     render: (text, record, _, action) => [
       <>
-        <ModalForm<API.AiFrequencyOrderQueryRequest>
-          title="修改订单信息"
-          trigger={
-            <Button type="dashed" size={'small'} style={{ color: 'blue' }}>
-              修改
-            </Button>
-          }
-          autoFocusFirstInput
-          modalProps={{
-            destroyOnClose: true,
-            onCancel: () => console.log('cancel')
-          }}
-          submitTimeout={2000}
-          onFinish={async (values) => {
-            //点击了提交，发起请求
-            values.id = record.id;
-            const updateOrder = await updateOrderUsingPost(values);
-            if (updateOrder.code === 0) {
-              message.success('修改订单成功');
-              // 刷新界面
-              location.reload();
-            } else {
-              message.error('修改订单失败');
+        <Flex vertical gap="small" style={{ width: '100%' }}>
+          <ModalForm<API.AiFrequencyOrderQueryRequest>
+            title="修改订单信息"
+            trigger={
+              <Button size={'small'} style={{ margin: 'auto' }}>
+                修改
+              </Button>
             }
-          }}
-        >
-          <ProForm.Group>
-            <ProFormText
-              width="md"
-              name="purchaseQuantity"
-              label="请输入你想购买AI使用次数"
-              placeholder="请输入购买数量"
-              initialValue={record.purchaseQuantity}
-            />
-          </ProForm.Group>
-        </ModalForm>
-        <a key="view">
-          <Popconfirm
-            title="删除订单"
-            description="你确定要删除此订单吗？"
-            onConfirm={async (e) => {
-              const id = record.id;
-              const isDelete = await deleteOrderUsingPost({ id: id });
-              if (isDelete) {
-                message.success('删除成功');
-                // 刷新订单信息表单
+            autoFocusFirstInput
+            modalProps={{
+              destroyOnClose: true,
+              onCancel: () => console.log('cancel')
+            }}
+            submitTimeout={2000}
+            onFinish={async (values) => {
+              //点击了提交，发起请求
+              values.id = record.id;
+              const updateOrder = await updateOrderUsingPost(values);
+              if (updateOrder.code === 0) {
+                message.success('修改订单成功');
+                // 刷新界面
                 location.reload();
               } else {
-                message.error('删除失败');
+                message.error('修改订单失败');
               }
             }}
-            onCancel={(e) => {}}
-            okText="是"
-            cancelText="否"
           >
-            <Button size={'small'} type={'primary'} danger>
-              删除
-            </Button>
-          </Popconfirm>
-        </a>
+            <ProForm.Group>
+              <ProFormText
+                width="md"
+                name="purchaseQuantity"
+                label="请输入你想购买AI使用次数"
+                placeholder="请输入购买数量"
+                initialValue={record.purchaseQuantity}
+              />
+            </ProForm.Group>
+          </ModalForm>
+          <a key="view">
+            <Popconfirm
+              title="删除订单"
+              description="你确定要删除此订单吗？"
+              onConfirm={async (e) => {
+                const id = record.id;
+                const isDelete = await deleteOrderUsingPost({ id: id });
+                if (isDelete) {
+                  message.success('删除成功');
+                  // 刷新订单信息表单
+                  location.reload();
+                } else {
+                  message.error('删除失败');
+                }
+              }}
+              onCancel={(e) => { }}
+              okText="是"
+              cancelText="否"
+            >
+              <Button size={'small'} type={'primary'} danger>
+                删除
+              </Button>
+            </Popconfirm>
+          </a>
+        </Flex>
       </>
     ]
   }
