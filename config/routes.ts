@@ -82,5 +82,27 @@
         component: './Admin/UserPayInfoManage'
       }
     ]
-  }
+  },
+  {
+    path: '/result',
+    icon: 'CheckCircleOutlined',
+    name: '结果页',
+    hideInMenu: true,
+    routes: [
+      {
+        path: '/result',
+        redirect: '/result/success',
+      },
+      {
+        path: '/result/success',
+        name: '成功页',
+        component: './Result/Success',
+      },
+      {
+        path: '/result/fail',
+        name: '失败页',
+        component: './Result/Fail',
+      },
+    ],
+  },
 ];
