@@ -58,10 +58,10 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
 
     links: isDev
       ? [
-          <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
-            <span>OpenAPI 接口文档</span>
-          </Link>
-        ]
+        <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
+          <span>OpenAPI 接口文档</span>
+        </Link>
+      ]
       : [],
     menuHeaderRender: undefined,
     // 自定义 403 页面
@@ -95,8 +95,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
  */
 export const request = {
   // 请求后端地址
-  baseURL: isDev ? 'http://localhost:8801' : 'http://bi.kongshier.top',
-  // baseURL:'http://bi.kongshier.top',
+  baseURL: isDev ? 'http://localhost:8801' : '',
   // 获取cookie
   withCredentials: true,
   ...errorConfig

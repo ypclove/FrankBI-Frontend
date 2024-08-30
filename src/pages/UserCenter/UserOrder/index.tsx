@@ -110,7 +110,7 @@ const columns: ProColumns<API.AiFrequencyOrder>[] = [
                   message.error('取消失败');
                 }
               }}
-              onCancel={(e) => {}}
+              onCancel={(e) => { }}
               okText="是"
               cancelText="否"
             >
@@ -180,7 +180,7 @@ const columns: ProColumns<API.AiFrequencyOrder>[] = [
                   message.error('删除失败');
                 }
               }}
-              onCancel={(e) => {}}
+              onCancel={(e) => { }}
               okText="是"
               cancelText="否"
             >
